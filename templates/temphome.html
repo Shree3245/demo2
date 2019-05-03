@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Product Admin - Dashboard HTML Template</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
+    <!-- https://fonts.google.com/specimen/Roboto -->
+    <link rel="stylesheet" href="../static/css/fontawesome.min.css">
+    <!-- https://fontawesome.com/ -->
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <!-- https://getbootstrap.com/ -->
+    <link rel="stylesheet" href="../static/css/templatemo-style.css">
+    <!--
+    Product Admin CSS Template
+    https://templatemo.com/tm-524-product-admin
+    -->
+</head>
+
+<body id="reportsPage">
+    <div class="" id="home">
+        <nav class="navbar navbar-expand-xl">
+            <div class="container h-100">
+                <a class="navbar-brand" href="{{url_for('home')}}">
+                    <h1 class="tm-site-title mb-0">Product Admin</h1>
+                </a>
+                <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars tm-nav-icon"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto h-100">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Dashboard
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="far fa-file-alt"></i>
+                                <span>
+                                    Reports <i class="fas fa-angle-down"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{url_for('dailyReports')}}">Daily Report</a>
+                                <a class="dropdown-item" href="#">Weekly Report</a>
+                                <a class="dropdown-item" href="#">Yearly Report</a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('products')}}">
+                                <i class="fas fa-shopping-cart"></i>
+                                Products
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{url_for('printSession')}}">
+                                <i class="fas fa-print"></i>
+                                Printing
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-cog"></i>
+                                <span>
+                                    Settings <i class="fas fa-angle-down"></i>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{url_for('accounts')}}">Accounts</a>
+                                <a class="dropdown-item" href="#">Profile</a>
+                                <a class="dropdown-item" href="#">Billing</a>
+                                <a class="dropdown-item" href="#">Customize</a>
+                            </div>
+                        </li>
+                        <li  class="nav-item">     
+              <a class="nav-link" href="{{url_for('dataRemAll')}}">
+                Remove All Data
+              </a></li>
+              <a class="nav-link" href="{{url_for('dataRemTrans')}}">
+                Remove All Transaction
+              </a><li  class="nav-item">
+              <a class="nav-link" href="{{url_for('dataRemProducts')}}">
+                Remove All Products
+              </a></li>    
+                        <li class="nav-item  " >
+                            <a class="nav-link  "href="{{url_for('logout')}}">
+                                <p class= "logoutred" >Admin, <b>Logout</b></p>
+                            </a>
+                        </li>
+                    </ul>
+              </div>
+            </div>
+
+        </nav>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <p class="text-white mt-5 mb-5">Welcome back, <b>Admin</b></p>
+                </div>
+            </div>
+            <!-- row -->
+            <div class="row tm-content-row">
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+                    <div class="tm-bg-primary-dark tm-block">
+                        <h2 class="tm-block-title">Seller Sales </h2>
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+                    <div class="tm-bg-primary-dark tm-block">
+                        <h2 class="tm-block-title">Product Performance</h2>
+                        <canvas id="barChart"></canvas>
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+                    <div class="tm-bg-primary-dark tm-block tm-block-taller">
+                        <h2 class="tm-block-title">Top Sellers Distrubution</h2>
+                        <div id="pieChartContainer">
+                            <canvas id="pieChart" class="chartjs-render-monitor" width="200" height="200"></canvas>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 tm-block-col">
+                    <div class="tm-bg-primary-dark tm-block tm-block-taller tm-block-overflow">
+                        <h2 class="tm-block-title">Notification List</h2>
+                        
+                        <div class="tm-notification-items">
+               <!--              >!-- <div class="media tm-notification-item">
+                                <div class="tm-gray-circle"><img src="static/img/notification-03.jpg" alt="Avatar Image" class="rounded-circle"></div>
+                                <div class="media-body">
+                                    <p class="mb-2"><b>Cinthela</b> and <b>6 others</b> sent you <a href="#"
+                                            class="tm-notification-link">product updates</a>.</p>
+                                    <span class="tm-small tm-text-color-secondary">6h ago.</span>
+                                </div> -- < 
+                -->                 {% for notification in unregisteredItem%}
+                                <div class="media tm-notification-item">
+                                    <div class = "media-body">
+                                        <p class="mb-2"  ><a href="{{url_for('editSKU',productName = notification.itemName,oldSKU =notification.SKU )}}">
+                                            Item: {{notification.itemName}} has SKU code {{notification.SKU}} which is not in the database. Click here to edit!
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                {%endfor%}
+
+                                {% for notification in itemOutStock%}
+                                <div class="media tm-notification-item">
+                                    <div class = "media-body">
+
+                                        <p class="mb-2"  ><a href = "{{ url_for('reorder',SKU = notification.SKU ) }}">
+                                            Item: {{notification.itemName}} with SKU: {{notification.SKU}} is out of stock. Click here to update!
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                                {%endfor%}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <script type="text/javascript">
+            
+            const width_threshold = 480;
+
+function drawLineChart() {
+  if ($("#lineChart").length) {
+    ctxLine = document.getElementById("lineChart").getContext("2d");
+    optionsLine = {
+      scales: {
+        yAxes: [
+          {
+            scaleLabel: {
+              display: true,
+              labelString: "Sales in AUD "
+            }
+          }
+        ]
+      }
+    };
+
+    // Set aspect ratio based on window width
+    optionsLine.maintainAspectRatio =
+      $(window).width() < width_threshold ? false : true;
+
+    configLine = {
+      type: "line",
+      data: {
+        labels: [
+          "{{Dlabels[0]}}",
+          "{{Dlabels[1]}}",
+          "{{Dlabels[2]}}",
+          "{{Dlabels[3]}}",
+          "{{Dlabels[4]}}",
+          "{{Dlabels[5]}}",
+          "{{Dlabels[6]}}"
+        ],
+        datasets: [
+          {
+            label: "Ragazza",
+            data: {{Rdata}},
+            fill: false,
+            borderColor: "rgb(75, 192, 192)",
+            cubicInterpolationMode: "monotone",
+            pointRadius: 0
+          },
+          {
+            label: "IS",
+            data: {{Idata}},
+            fill: false,
+            borderColor: "rgba(255,99,132,1)",
+            cubicInterpolationMode: "monotone",
+            pointRadius: 0
+          },
+          {
+            label: "YOU",
+            data: {{Ydata}} ,
+            fill: false,
+            borderColor: "rgba(1, 102, 255, 1)",
+            cubicInterpolationMode: "monotone",
+            pointRadius: 0
+          },
+          {
+            label: "Tronic",
+            data: {{Tdata}},
+            fill: false,
+            borderColor: "rgba(203, 202, 255, 1)",
+            cubicInterpolationMode: "monotone",
+            pointRadius: 0
+          }
+        ]
+      },
+      options: optionsLine
+    };
+
+    lineChart = new Chart(ctxLine, configLine);
+  }
+}
+
+function drawBarChart() {
+  if ($("#barChart").length) {
+    ctxBar = document.getElementById("barChart").getContext("2d");
+
+    optionsBar = {
+      responsive: true,
+      scales: {
+        yAxes: [
+          {
+            barPercentage: 0.2,
+            ticks: {
+              beginAtZero: true
+            },
+            scaleLabel: {
+              display: true,
+              labelString: "Products"
+            }
+          }
+        ]
+      }
+    };
+
+    optionsBar.maintainAspectRatio =
+      $(window).width() < width_threshold ? false : true;
+
+    /**
+     * COLOR CODES
+     * Red: #F7604D
+     * Aqua: #4ED6B8
+     * Green: #A8D582
+     * Yellow: #D7D768
+     * Purple: #9D66CC
+     * Orange: #DB9C3F
+     * Blue: #3889FC
+     */
+
+    configBar = {
+      type: "horizontalBar",
+      data: {
+        labels: ["{{Plabels[0][0:30]}}",
+          "{{Plabels[1][0:30]}}",
+          "{{Plabels[2][0:30]}}",
+          "{{Plabels[3][0:30]}}",
+          "{{Plabels[4][0:30]}}",
+          "{{Plabels[5][0:30]}}",
+          "{{Plabels[6][0:30]}}"],
+        datasets: [
+          {
+            label: "# of units",
+            data:{{Topq}},
+            backgroundColor: [
+              "#F7604D",
+              "#4ED6B8",
+              "#A8D582",
+              "#D7D768",
+              "#9D66CC",
+              "#DB9C3F",
+              "#3889FC"
+            ],
+            borderWidth: 0
+          }
+        ]
+      },
+      options: optionsBar
+    };
+
+    barChart = new Chart(ctxBar, configBar);
+  }
+}
+
+function drawPieChart() {
+  if ($("#pieChart").length) {
+    var chartHeight = 300;
+
+    $("#pieChartContainer").css("height", chartHeight + "px");
+
+    ctxPie = document.getElementById("pieChart").getContext("2d");
+
+    optionsPie = {
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {
+        padding: {
+          left: 10,
+          right: 10,
+          top: 10,
+          bottom: 10
+        }
+      },
+      legend: {
+        position: "top"
+      }
+    };
+
+    configPie = {
+      type: "pie",
+      data: {
+        datasets: [
+          {  
+            data: [{{total_R}},{{total_T}},{{total_Y}},{{total_I}}],
+            backgroundColor: ["#F7604D", "#4ED6B8", "#A8D582","cyan"],
+            label: "Storage"
+          }
+        ],
+        labels: [
+        "Ragazza",
+        "Tronic",
+        "YOU",
+        "IS"
+        ]
+      },
+      options: optionsPie
+    };
+
+    pieChart = new Chart(ctxPie, configPie);
+  }
+}
+
+function updateLineChart() {
+  if (lineChart) {
+    lineChart.options = optionsLine;
+    lineChart.update();
+  }
+}
+
+function updateBarChart() {
+  if (barChart) {
+    barChart.options = optionsBar;
+    barChart.update();
+  }
+}
+
+        </script>
+
+    <script src="static/js/jquery-3.3.1.min.js"></script>
+    <!-- https://jquery.com/download/ -->
+    <script src="static/js/moment.min.js"></script>
+    <!-- https://momentjs.com/ -->
+    <script src="static/js/Chart.min.js"></script>
+    <!-- http://www.chartjs.org/docs/latest/ -->
+    <script src="static/js/bootstrap.min.js"></script>
+    <!-- https://getbootstrap.com/ -->
+    <script src="static/js/tooplate-scripts.js"></script>
+    <script>
+        Chart.defaults.global.defaultFontColor = 'white';
+        let ctxLine,
+            ctxBar,
+            ctxPie,
+            optionsLine,
+            optionsBar,
+            optionsPie,
+            configLine,
+            configBar,
+            configPie,
+            lineChart;
+        barChart, pieChart;
+        // DOM is ready
+        $(function () {
+            drawLineChart(); // Line Chart
+            drawBarChart(); // Bar Chart
+            drawPieChart(); // Pie Chart
+
+            $(window).resize(function () {
+                updateLineChart();
+                updateBarChart();                
+            });
+        })
+    </script>
+</body>
+
+</html>

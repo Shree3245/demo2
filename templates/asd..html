@@ -1,0 +1,106 @@
+<div >
+        <div >
+          <div class="col-12 tm-block-col">
+
+            <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
+                    <th scope="col">&nbsp;</th>
+                    <th scope="col">Record Number</th>
+                    <th scope="col">Buyer Name</th>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">UNIT SOLD</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Shop Name</th>
+                    <th scope="col">PostCode</th>
+                    <th scope="col">&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% for record in records %}
+                  {%if record['Status']== 'Incomplete_SKU' %}
+                    <tr style = 'background-color:#A92626'>
+                          <th scope="row"><input name = "{{record['Custom Label']}}" type="checkbox" /></th>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Sales Record Number']}}{{record['Sales Record Number"']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Buyer Fullname']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Custom Label']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Item Title']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Quantity']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID= record["Sales Record Number"])}}'>{{record['Sale Price']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID= record["Sales Record Number"])}}'>{{record['Shop Name']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Buyer Postcode']}}</a></td>
+                          
+                          <td>
+                            <a href="#" class="tm-product-delete-link">
+                              <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                            </a>
+                          </td>
+                        </tr>
+                  {%elif record['Status']== 'Repeat' %}
+                    <tr style = 'background-color:#FF4500'>
+                          <th scope="row"><input name = "{{record['Custom Label']}}" type="checkbox" /></th>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Sales Record Number']}}{{record['Sales Record Number"']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Buyer Fullname']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Custom Label']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Item Title']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Quantity']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID= record["Sales Record Number"])}}'>{{record['Sale Price']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID= record["Sales Record Number"])}}'>{{record['Shop Name']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Buyer Postcode']}}</a></td>
+                          
+                          <td>
+                            <a href="#" class="tm-product-delete-link">
+                              <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                            </a>
+                          </td>
+                        </tr>
+
+                  {%else%}
+                        <tr >
+                          <th scope="row"><input name = "{{record['Custom Label']}}" type="checkbox" /></th>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Sales Record Number']}}{{record['Sales Record Number"']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Buyer Fullname']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Custom Label']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Item Title']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Quantity']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID= record["Sales Record Number"])}}'>{{record['Sale Price']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID= record["Sales Record Number"])}}'>{{record['Shop Name']}}</a></td>
+                          <td><a href = '{{url_for("viewReport",recordID =record["Sales Record Number"])}}'>{{record['Buyer Postcode']}}</a></td>
+                          
+                          <td>
+                            <a href="#" class="tm-product-delete-link">
+                              <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                            </a>
+                          </td>
+                        </tr>
+                  {%endif%}
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
+
+            <!-- table container -->
+          </div>
+            <div>
+              <p style = 'color:white'><b>Totals</b>: {{totalc}}</p>
+              <p style = 'color:white'><b>Quantity</b>: {{quantity}}</p >
+              <p style = 'color:white'><b>Number of Total Transactions</b>: {{transCount}}</p >
+            </div>
+            <form method='POST' action = "{{url_for('upload_file')}}" enctype="multipart/form-data">
+              <div class ="form-group">
+                <label for = 'inputFile'>File input</label>
+                <input type=file name=fileInput multiple="">
+              </div>  
+            <button class="btn btn-primary btn-block text-uppercase mb-3" type = 'submit'>
+                Add Data Transaction
+            </button>
+            </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
