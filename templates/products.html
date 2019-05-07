@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Product Page - Admin HTML Template</title>
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Roboto:400,700"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700" />
     <!-- https://fonts.google.com/specimen/Roboto -->
     <link rel="stylesheet" href="../static/css/fontawesome.min.css" />
     <!-- https://fontawesome.com/ -->
@@ -19,258 +17,240 @@
   Product Admin CSS Template
   https://templatemo.com/tm-524-product-admin
   -->
-  </head>
+</head>
 
-  <body id="reportsPage">
+<body id="reportsPage">
     <nav class="navbar navbar-expand-xl">
-      <div class="container h-100">
-        <a class="navbar-brand" href="{{url_for('home')}}">
-          <h1 class="tm-site-title mb-0">Product Admin</h1>
-        </a>
-        <button
-          class="navbar-toggler ml-auto mr-0"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="fas fa-bars tm-nav-icon"></i>
-        </button>
+        <div class="container h-100">
+            <a class="navbar-brand" href="{{url_for('home')}}">
+                <h1 class="tm-site-title mb-0">Product Admin</h1>
+            </a>
+            <button class="navbar-toggler ml-auto mr-0" type="button" data-toggle="collapse"
+                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="fas fa-bars tm-nav-icon"></i>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mx-auto h-100">
-            <li class="nav-item">
-              <a class="nav-link" href="{{url_for('home')}}">
-                <i class="fas fa-tachometer-alt"></i> Dashboard
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false">
-                <i class="far fa-file-alt"></i>
-                <span> Reports <i class="fas fa-angle-down"></i> </span>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{url_for('dailyReports')}}">Daily Report</a>
-                <a class="dropdown-item" href="#">Weekly Report</a>
-                <a class="dropdown-item" href="#">Yearly Report</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" href="{{url_for('products')}}">
-                <i class="fas fa-shopping-cart"></i> products
-              </a>
-            </li>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mx-auto h-100">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('home')}}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="far fa-file-alt"></i>
+                            <span> Reports <i class="fas fa-angle-down"></i> </span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{url_for('dailyReports')}}">Daily Report</a>
+                            <a class="dropdown-item" href="#">Weekly Report</a>
+                            <a class="dropdown-item" href="#">Yearly Report</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{url_for('products')}}">
+                            <i class="fas fa-shopping-cart"></i> products
+                        </a>
+                    </li>
 
-           <li class="nav-item">
-                            <a class="nav-link" href="{{url_for('printSession')}}">
-                                <i class="fas fa-print"></i>
-                                Printing
-                            </a>
-                        </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false">
-                <i class="fas fa-cog"></i>
-                <span> Settings <i class="fas fa-angle-down"></i> </span>
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="{{url_for('accounts')}}">Accounts</a>
-                <a class="dropdown-item" href="#">Profile</a>
-                <a class="dropdown-item" href="#">Billing</a>
-                <a class="dropdown-item" href="#">Customize</a>
-              </div>
-            </li>
-                       <li  class="nav-item">     
-              <a class="nav-link" href="{{url_for('dataRemAll')}}">
-                Remove All Data
-              </a></li>
-              <a class="nav-link" href="{{url_for('dataRemTrans')}}">
-                Remove All Transaction
-              </a><li  class="nav-item">
-              <a class="nav-link" href="{{url_for('dataRemProducts')}}">
-                Remove All Products
-              </a></li>    
-                        <li class="nav-item  " >
-                            <a class="nav-link  "href="{{url_for('logout')}}">
-                                <p class= "logoutred" >Admin, <b>Logout</b></p>
-                            </a>
-                        </li>
-                    </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('printSession')}}">
+                            <i class="fas fa-print"></i>
+                            Printing
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-cog"></i>
+                            <span> Settings <i class="fas fa-angle-down"></i> </span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{{url_for('accounts')}}">Accounts</a>
+                            <a class="dropdown-item" href="#">Profile</a>
+                            <a class="dropdown-item" href="#">Billing</a>
+                            <a class="dropdown-item" href="#">Customize</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('dataRemAll')}}">
+                            Remove All Data
+                        </a></li>
+                    <a class="nav-link" href="{{url_for('dataRemTrans')}}">
+                        Remove All Transaction
+                    </a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('dataRemProducts')}}">
+                            Remove All Products
+                        </a></li>
+                    <li class="nav-item  ">
+                        <a class="nav-link  " href="{{url_for('logout')}}">
+                            <p class="logoutred">Admin, <b>Logout</b></p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-      </div>
     </nav>
     <div class="container mt-5">
-    <form  method="POST" action='{{url_for("productSearch")}}'>
-        <div class="row tm-content-row">
-          <div class="col-12 tm-block-col">
+        <form method="POST" action='{{url_for("productSearch")}}'>
+            <div class="row tm-content-row">
+                <div class="col-12 tm-block-col">
 
-            <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+                    <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
 
-              <h2 class="tm-block-title">Search Bar</h2>
-              
-              <input
-                    id="name"
-                    name="search_bar"
-                    type="text"
-                    class="form-control"
-                    width="50%"
-                  />
-            <br>
-            <div class="form-group mb-3 col-xs-12 col-sm-4">
-            <div class="form-group mb-3">
-                    <label
-                      for="search"
-                      >Search By:</label
-                    >
-                    <select
-                      class="custom-select tm-select-accounts"
-                      name = 'searchType'
-                      id="category"
-                    >
-                      
-                      <option value="none">--Search Type--</option>
-                      <option selected="selected" value="itemName">Item Name</option>
-                      <option value="SKU">SKU</option>
-                      <option value="cat">Categories</option>
-                      <option value="moSo">Most Sold</option>
-                      <option value="leSo">Least Sold</option>
-                    </select>
-                  </div> 
+                        <h2 class="tm-block-title">Search Bar</h2>
+
+                        <input id="name" name="search_bar" type="text" class="form-control" width="50%" />
+                        <br>
+                        <div class="form-group mb-3 col-xs-12 col-sm-4">
+                            <div class="form-group mb-3">
+                                <label for="search">Search By:</label>
+                                <select class="custom-select tm-select-accounts" name='searchType' id="category">
+
+                                    <option value="none">--Search Type--</option>
+                                    <option selected="selected" value="itemName">Item Name</option>
+                                    <option value="SKU">SKU</option>
+                                    <option value="cat">Categories</option>
+                                    <option value="moSo">Most Sold</option>
+                                    <option value="leSo">Least Sold</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary text-uppercase mb-3">
+                            Search
+                        </button>
+
+                    </div>
                 </div>
-           
-              <button class="btn btn-primary text-uppercase mb-3">
-              Search
-            </button>
-         
             </div>
-          </div>
-        </div>
-    </form>
-      </div>
+        </form>
+    </div>
 
     <div class="container mt-5">
-      <div class="row tm-content-row">
-        <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
-          <div class="tm-bg-primary-dark tm-block tm-block-templates/products.html">
-            <div class="tm-product-table-container">
-              <table class="table table-hover tm-table-small tm-product-table">
-                <thead>
-                  <tr>
-                    <th scope="col">&nbsp;</th>
-                    <th scope="col">PRODUCT NAME</th>
-                    <th scope="col">SKU</th>
-                    <th scope="col">UNIT SOLD</th>
-                    <th scope="col">IN STOCK</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">&nbsp;</th>
-                  </tr>
-                </thead>
-                <tbody>
+        <div class="row tm-content-row">
+            <div class="col-sm-12 col-md-12 col-lg-8 col-xl-8 tm-block-col">
+                <div class="tm-bg-primary-dark tm-block tm-block-templates/products.html">
+                    <div class="tm-product-table-container">
+                        <table class="table table-hover tm-table-small tm-product-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">&nbsp;</th>
+                                    <th scope="col">PRODUCT NAME</th>
+                                    <th scope="col">SKU</th>
+                                    <th scope="col">UNIT SOLD</th>
+                                    <th scope="col">IN STOCK</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                  {% for product in products %}
-                  
-                  <div onclick="location.href='{{url_for('editProduct',ItemName = product.productName)}}';">
-                  <tr>
-                    <th scope="row"><input name = "{{product.SKU}}" type="checkbox" /></th>
-                    <td class="tm-product-name" ><a href = '{{url_for("editProduct",ItemName = product.productName)}}'>
-                            {{product.productName}}</a></td>
-                    <td><a href = '{{url_for("editProduct",ItemName = product.productName)}}'>{{product.SKU}}</a></td>
-                    <td><a href = '{{url_for("editProduct",ItemName = product.productName)}}'>{{product.quantity_sold}}</a></td>
-                    <td><a href = '{{url_for("editProduct",ItemName = product.productName)}}'>{{product.quantity_inStock}}</a></td>
-                    {%if product.status == 'True'%}
-                      <td>
-                          <div class="tm-status-circle cancelled">
-                          </div>Incomplete
-                        </td>
-                    {%elif product.status == 'False'%}
-                      <td>
-                          <div class="tm-status-circle moving">
-                          </div>Complete
-                      </td>
+                                {% for product in products %}
 
-                    {%endif%}
-                    <td>
-                      <a href="{{url_for('itemDelete',productName = product.productName)}}" class="tm-product-delete-link">
-                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
-                      </a>
-                    </td>
-                  </tr>
+                                <div
+                                    onclick="location.href='{{url_for('editProduct',ItemName = product.productName)}}';">
+                                    <tr>
+                                        <th scope="row"><input name="{{product.SKU}}" type="checkbox" /></th>
+                                        <td class="tm-product-name"><a
+                                                href='{{url_for("editProduct",ItemName = product.productName)}}'>
+                                                {{product.productName}}</a></td>
+                                        <td><a
+                                                href='{{url_for("editProduct",ItemName = product.productName)}}'>{{product.SKU}}</a>
+                                        </td>
+                                        <td><a
+                                                href='{{url_for("editProduct",ItemName = product.productName)}}'>{{product.quantity_sold}}</a>
+                                        </td>
+                                        <td><a
+                                                href='{{url_for("editProduct",ItemName = product.productName)}}'>{{product.quantity_inStock}}</a>
+                                        </td>
+                                        {%if product.status == 'True'%}
+                                        <td>
+                                            <div class="tm-status-circle cancelled">
+                                            </div>Incomplete
+                                        </td>
+                                        {%elif product.status == 'False'%}
+                                        <td>
+                                            <div class="tm-status-circle moving">
+                                            </div>Complete
+                                        </td>
 
-                  {% endfor %}
+                                        {%endif%}
+                                        <td>
+                                            <a href="{{url_for('itemDelete',productName = product.productName)}}"
+                                                class="tm-product-delete-link">
+                                                <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
 
-                </tbody>
-              </table>
+                                    {% endfor %}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- table container -->
+                    <a href="{{url_for('addProduct')}}" class="btn btn-primary btn-block text-uppercase mb-3">Add new
+                        product</a>
+
+                    <form method='POST' action="{{url_for('product_upload_file')}}" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for='inputFile'>File input</label>
+                            <input type=file name=fileInput>
+                        </div>
+                        <button class="btn btn-primary btn-block text-uppercase mb-3" type='submit'>
+                            Add Multiple Files
+                        </button>
+                    </form>
+
+                </div>
             </div>
-            <!-- table container -->
-            <a
-              href="{{url_for('addProduct')}}"
-              class="btn btn-primary btn-block text-uppercase mb-3">Add new product</a>
-            
-            <form method='POST' action = "{{url_for('product_upload_file')}}" enctype="multipart/form-data">
-              <div class ="form-group">
-                <label for = 'inputFile'>File input</label>
-                <input type=file name=fileInput>
-              </div>  
-            <button class="btn btn-primary btn-block text-uppercase mb-3" type = 'submit'>
-                Add Multiple Files
-            </button>
-            </form>
-        
-          </div>
-        </div>
-        <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
-          <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
-            <h2 class="tm-block-title">New SKU</h2>
-            <div class="tm-product-table-container">
-              <table class="table tm-table-small tm-product-table">
-                <tbody>
-                  {% for category in unregisteredItem %}
-                  <tr>
-                    
-                    <td class="tm-product-name"><a href = "{{ url_for('editSKU',oldSKU = category.SKU,productName = category.itemName) }}">{{category.SKU}}</a></td>
-                    <td class="text-center">
-                      <a href="{{url_for('categoryDelete', category = category)}}" class="tm-product-delete-link">
-                        <i class="far fa-trash-alt tm-product-delete-icon"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  {%endfor%}
-                </tbody>
-              </table>
+            <div class="col-sm-12 col-md-12 col-lg-4 col-xl-4 tm-block-col">
+                <div class="tm-bg-primary-dark tm-block tm-block-product-categories">
+                    <h2 class="tm-block-title">New SKU</h2>
+                    <div class="tm-product-table-container">
+                        <table class="table tm-table-small tm-product-table">
+                            <tbody>
+                                {% for category in unregisteredItem %}
+                                <tr>
+
+                                    <td class="tm-product-name"><a
+                                            href="{{ url_for('editSKU',oldSKU = category.SKU,productName = category.itemName) }}">{{category.SKU}}</a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{url_for('categoryDelete', category = category)}}"
+                                            class="tm-product-delete-link">
+                                            <i class="far fa-trash-alt tm-product-delete-icon"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- table container -->
+
+                </div>
             </div>
-            <!-- table container -->
-            
-          </div>
         </div>
-      </div>
     </div>
-    
+
     <script src="../static/js/jquery-3.3.1.min.js"></script>
     <!-- https://jquery.com/download/ -->
     <script src="../static/js/bootstrap.min.js"></script>
     <!-- https://getbootstrap.com/ -->
     <script>
-      $(function() {
-        $(".tm-product-name").on("click", function() {
-          window.location.;
+        $(function () {
+            $(".tm-product-name").on("click", function () {
+                window.location;
+            });
         });
-      });
     </script>
-  </body>
+</body>
+
 </html>
