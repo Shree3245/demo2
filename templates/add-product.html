@@ -38,10 +38,9 @@
                         </div>
                     </div>
                     <div class="row tm-edit-product-row">
-
                         <div class="col-xl-4 col-lg-4 col-md-22">
                             <div id="myDIV" class='form-group mb-3'>
-                                <label for="SKK">SKU</label>
+                                <label for="SKU">SKU</label>
                                 <input id="SKU" name="SKU" type="text" value='{{SKU}}' class="form-control validate " />
                             </div>
                         </div>
@@ -63,20 +62,22 @@
                         </div>
                     </div>
                     <div class="row tm-edit-product-row">
-                        <div class="col-xl-6 col-lg-6 col-md-22">
+                        <div id="leftColumn" class="col-xl-6 col-lg-6 col-md-22">
                             <div class="form-group mb-3">
                                 <label for="description">Description</label>
-                                <textarea class="form-control validate " name='item_description' rows="3"></textarea>
+                                <textarea id="item_description_area" class="form-control validate "
+                                    name='item_description'></textarea>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="materials">Materials</label>
-                                <textarea class="form-control validate " name='item_materials' rows="3"></textarea>
+                                <textarea id="item_materials_area" class="form-control validate "
+                                    name='item_materials'></textarea>
                             </div>
                             <div class="form-group mb-3">
                                 <script type="text/javascript">
                                     function envOther(name) {
-                                        if (name == 'Other') document.getElementById('div1').innerHTML = '<label for="OtherEnvelope" >New File Format:</label> <input type="text" name="OtherEnvelope" class="form-control validate" />';
-                                        else document.getElementById('div1').innerHTML = '';
+                                        if (name == 'OtherCat') $("#otherEnvRow").show();
+                                        else $("#otherEnvRow").hide();
                                     }
                                 </script>
 
@@ -93,12 +94,9 @@
                                 </select>
 
 
-                                <div id="div1"></div>
-
-
                             </div>
                         </div>
-                        <div class="col-xl-6 col-lg-6 col-md-22">
+                        <div class="col-xl-6 col-lg-6 col-md-22" id="rightColumn">
                             <div class="form-group mb-3">
                                 <script type="text/javascript">
                                     function showfield(name) {
@@ -121,7 +119,7 @@
                             <div class="row">
 
                                 <div class="form-group mb-3 col-xs-12 col-sm-6">
-                                    <label for="stock">Units In Stock
+                                    <label for="stock">Units in Stock
                                     </label>
                                     <input id="stock" name="stock" type="text" class="form-control validate " />
                                 </div>
@@ -147,14 +145,14 @@
                                     <input id="size" name="Width" type="text" class="form-control validate " />
                                 </div>
                                 <div class="form-group mb-3 col-xs-12 col-sm-6">
-                                    <label for="size">Lenght (cm)
+                                    <label for="size">Length (cm)
                                     </label>
-                                    <input id="size" name="Lenght" type="text" class="form-control validate " />
+                                    <input id="size" name="Length" type="text" class="form-control validate " />
                                 </div>
 
                             </div>
                             <div class="form-group mb-3">
-                                <label for="currency">currency</label>
+                                <label for="currency">Currency</label>
                                 <select class="custom-select tm-select-accounts" id="currency" name='currencyType'>
                                     <option value="none" selected>Select Currency</option>
                                     <option value="AUD">AUD</option>
@@ -169,7 +167,35 @@
                             </div>
 
                         </div>
+
                     </div>
+
+                    <div id="otherEnvRow" class="row tm-edit-product-row" style="display: none">
+                        <div class="col-xl-4 col-lg-4 col-md-22">
+                            <div id="otherEnvName" class='form-group mb-3'>
+                                <label for="SKU">Envelope Name</label>
+                                <input id="SKU" name="SKU" type="text" value='{{SKU}}' class="form-control validate " />
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-22">
+                            <div id="otherEnvDescription" class="form-group mb-3">
+                                <label for="envName">Envelope Description
+                                </label>
+                                <input id="name" name="productName" type="text" value='{{productName}}'
+                                    class="form-control validate" />
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-22">
+                            <div id="otherEnvTemplate" class="form-group mb-3">
+                                <label for="name">Envelope Template
+                                </label>
+                                <input type="button" class="btn btn-primary btn-block mx-auto"
+                                    value="UPLOAD TEMPLATE"
+                                    onclick="document.getElementById('fileInput').click();" />
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row tm-edit-product-row">
                         <div class="col-xl-12 col-lg-12 col-md-12 mx-auto mb-4">
                             <div class="tm-product-img-dummy mx-auto">
@@ -200,4 +226,17 @@
     </div>
 
 </div>
+{% endblock %}
+{% block extra_scripts %}
+<script>
+    var whiteSpaceHeight = 0;
+    $("#leftColumn").children().each(function () {
+        whiteSpaceHeight = whiteSpaceHeight + $(this).outerHeight(true);
+    });
+    whiteSpaceHeight = $("#leftColumn").height() - whiteSpaceHeight;
+    if (whiteSpaceHeight != 0) {
+        $("#item_description_area").height($("#item_description_area").height() + whiteSpaceHeight / 2);
+        $("#item_materials_area").height($("#item_materials_area").height() + whiteSpaceHeight / 2);
+    }
+</script>
 {% endblock %}
