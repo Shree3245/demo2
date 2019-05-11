@@ -1,6 +1,6 @@
 from flask import Flask, render_template, url_for, request, session, redirect,make_response, jsonify,flash
 from flask_pymongo import PyMongo
-from db import newItemCreate,itemStockUpdate,itemOutStock, notificationUnautItem, productInfo,itemStockUpdate2, userInfo, userInsert, itemInsert,itemInsert3, categories,envelope, catagoryCreate, itemInsert2,shopName
+from db import newItemCreate,itemStockUpdate,itemOutStock,itemInsert5, notificationUnautItem, productInfo,itemStockUpdate2, userInfo, userInsert, itemInsert,itemInsert3, categories,envelope, catagoryCreate, itemInsert2,shopName
 import re
 import dateparser
 from csv import reader
@@ -63,25 +63,43 @@ def accounts():
 def addProduct():
 		if 'username' in session:
 			temp=categories.objects() 
-			for i in temp:
-				print(i['category'])
+			
 			return render_template('add-product.html',categories =categories.objects(),envelope = envelope.objects() )
 		return render_template('login.html')
 
 @app.route('/temp',methods=['POST', 'GET'])
 def temp():
-
-	print(request.form.get('SKUE'))
+	print((request.form.getlist('productName')))
 	incompleteVal ='False'
-	productName =request.form.get('productName','')
-	if productName == "":
+	multi =False
+	if len(request.form.getlist('productName'))>2:
+
+		productName =request.form.get('productName','')
+		if productName == "":
 			incompleteVal = 'True'
-	chineseName = request.form.get('chinese_name', '')
-	if chineseName == "":
+		products =request.form.getlist('productName')
+		chineseName = request.form.get('chinese_name','')
+		chinese = request.form.getlist('chinese_name')
+		if chineseName == "":
 			incompleteVal = 'True'
-	SKU =request.form.get('SKU','')
-	if SKU == "":
+		SKU =request.form.get('SKU','')
+		SKUS =request.form.getlist('SKU')
+		if SKU == "":
 			incompleteVal = 'True'
+
+		multi ='True'
+	else:
+		productName =request.form.get('productName')
+		if productName == "":
+			incompleteVal = 'True'
+		chineseName = request.form.get('chinese_name')
+		if chineseName == "":
+			incompleteVal = 'True'
+		SKU =request.form.get('SKU')
+		if SKU == "":
+			incompleteVal = 'True'
+		multi = 'False'
+
 	colour =request.form.get('Colour','')
 	if colour == "":
 			incompleteVal = 'True'
@@ -114,11 +132,13 @@ def temp():
 	cost_price =request.form.get('cost_price',0.00)
 	if cost_price == 0.00:
 			incompleteVal = 'True'
-	category = request.form.get('category','')
-	category = request.form.get('category','none')
+	category = request.form.get('category')
+	print(category)
 	if category == "none":
+		print('cat true')
 		incompleteVal = 'True'
 	elif category == 'OtherCat':
+		print('other cat')
 		category = request.form['otherCat']
 		if categories.objects(category=(request.form['otherCat']).capitalize()).count()>0:
 			pass
@@ -128,32 +148,35 @@ def temp():
 	if envelope == "none":
 		incompleteVal = 'True'
 	elif envelope == "Other":
-		envelope = request.form['OtherEnvelope']
-	try:
-		if productInfo.objects(productName=productName).count()>0:
+		envelope = request.form['envName']
+		enveCreate(envelope)
+	if 1==1:
+		if productInfo.objects(productName=productName).count()>1:
+			print('asdfasdfsdf')
 			return(redirect(url_for('products')))
-	except:
-
-		if productInfo.objects(SKU=SKU) == True:
-				pass
+	
 		else:
-			if currency == 'AUD':
-				AUD = float(cost_price)
-				USD = AUD/1.4
-				RMB = AUD* 4.77
-			elif currency == 'USD':
-				AUD = 1.4 * float(cost_price)
-				USD = float(cost_price)
-				RMB = 6.68 * float(cost_price)
-			elif currency == 'RMB':
-				RMB = float(cost_price)
-				USD = RMB/6.68
-				AUD = .21 * RMB 
+			if productInfo.objects(SKU=SKU) == True:
+					pass
 			else:
-				AUD = 0.00
-				USD = 0.00
-				RMB = 0.00
+				if currency == 'AUD':
+					AUD = float(cost_price)
+					USD = AUD/1.4
+					RMB = AUD* 4.77
+				elif currency == 'USD':
+					AUD = 1.4 * float(cost_price)
+					USD = float(cost_price)
+					RMB = 6.68 * float(cost_price)
+				elif currency == 'RMB':
+					RMB = float(cost_price)
+					USD = RMB/6.68
+					AUD = .21 * RMB 
+				else:
+					AUD = 0.00
+					USD = 0.00
+					RMB = 0.00
 
+				
 				fileExists = tHistory.find({ "Item Title": productName})
 				if fileExists.count() >0:
 					stockOut = 0
@@ -163,15 +186,23 @@ def temp():
 					if int(quantity_inStock) - int(stockOut)<1:
 						itemStockUpdate2(SKU,productName)
 						incompleteVal = 'True'
-					itemInsert2(productName,chineseName,SKU,colour,weight,height,width,lenght,description,material,int(quantity_inStock),int(AUD),int(RMB),int(USD),category,incompleteVal,stockOut)
+					if multi =='True':
+						itemInsert5(productName,chineseName,SKU,products,chinese,SKUS,colour,weight,height,width,lenght,description,material,int(quantity_inStock),int(AUD),int(RMB),int(USD),category,incompleteVal,stockOut)
+					else:
+						itemInsert2(productName,chineseName,SKU,colour,weight,height,width,lenght,description,material,int(quantity_inStock),int(AUD),int(RMB),int(USD),category,incompleteVal,stockOut)
 					
 					noteExists = notificationUnautItem.objects(itemName=productName).delete()
 					
 				else:
+					#if len(productName)>1:
+					if multi =='True':
+						itemInsert5(productName,chineseName,SKU,products,chinese,SKUS,colour,weight,height,width,lenght,description,material,int(quantity_inStock),int(AUD),int(RMB),int(USD),category,incompleteVal)
+					else:	
 						itemInsert(productName,chineseName,SKU,colour,weight,height,width,lenght,description,material,int(quantity_inStock),int(AUD),int(RMB),int(USD),category,incompleteVal)
+		
 		if notificationUnautItem.objects(SKU = request.form.get('SKU','')).count()>0:
 			notificationUnautItem.objects(SKU = request.form.get('SKU','')).delete()		
-			x = tHistory.find({'Custom Label': SKU})
+			x = tHistory.find({'Custom Label': request.form.get('SKU','')})
 			for i in x:
 				if i['Status'] == 'Incomplete_SKU':
 					i['Status'] = 'None'		
@@ -183,11 +214,11 @@ def temp():
 @app.route('/itemDelete/<productName>')
 def itemDelete(productName):
 		
-		productInfo.objects(productName=productName).delete()
-		packagingInfo.objects(productName=productName).delete()
-		
-		
-		return redirect(url_for('products'))
+	productInfo.objects(productName=productName).delete()
+	#packagingInfo.objects(productName=productName).delete()
+	
+	
+	return redirect(url_for('products'))
 
 @app.route("/categoryDelete/<category>")
 def categoryDelete(category):
@@ -196,31 +227,33 @@ def categoryDelete(category):
 
 @app.route('/edit-product/<ItemName>',methods=['POST', 'GET'])
 def editProduct(ItemName):
-		if 'username' in session:
-			for product in productInfo.objects( productName= ItemName):
-				aud = product.cost_AUD
-				usd =product.cost_USD
-				rmb = product.cost_RMB
-				cat = product.category
+	if 'username' in session:
+		for product in productInfo.objects( productName= ItemName):
+			aud = product.cost_AUD
+			usd =product.cost_USD
+			rmb = product.cost_RMB
+			cat = product.category
 
-				if (aud != 0):
-					currencyType = 'AUD'
-					cost = product.cost_AUD
-				elif (usd != 0):
-					currencyType = 'USD'
-					cost = product.cost_USD
-				elif rmb != 0:
-					currencyType = 'RMB'
-					cost = product.cost_RMB 
-				else:
-					currencyType ='Select Currency'
-					cost = 0.00
-				
-				item = productInfo.objects( productName= ItemName).first()
-				envelopeItem = item.envelope
+			if (aud != 0):
+				currencyType = 'AUD'
+				cost = product.cost_AUD
+			elif (usd != 0):
+				currencyType = 'USD'
+				cost = product.cost_USD
+			elif rmb != 0:
+				currencyType = 'RMB'
+				cost = product.cost_RMB 
+			else:
+				currencyType ='Select Currency'
+				cost = 0.00
+			
+			item = productInfo.objects( productName= ItemName).first()
+			envelopeItem = item.envelope
+			
 
-				return render_template('edit-product.html',product = product, currencyType = currencyType, cost = cost, envelope= envelopeItem,selectCat =cat,categories =categories.objects(),envelopes = envelope.objects() )
-		return render_template('login.html')
+
+			return render_template('edit-product.html',product = product, currencyType = currencyType, cost = cost, envelope= envelopeItem,selectCat =cat,categories =categories.objects(),envelopes = envelope.objects() )
+	return render_template('login.html')
 
 
 @app.route('/create-new-productTemp/<SKUold>',methods=['POST', 'GET'])
@@ -416,8 +449,7 @@ def printSessionMulti():
 				data = []
 				for i in records:
 						data.append(printingSes.find({"Sales Record Number":i}))
-				for i in data:
-						print(i)
+				
 				return render_template("printSesMulti.html", records = data)
 		return render_template('login.html')
 
@@ -518,10 +550,10 @@ def viewReport(recordID,status):
 					else:
 						dd[key].append(value)
 
-			print(status)
+			
 			return render_template('tempMulti.html',result = dd,title ="report",status = status.capitalize(),recordID=recordID)
 		else:	
-			print(status)
+			
 			return render_template('temp.html',result = records,title ="report",status = status.capitalize(),recordID=recordID)
 	return render_template('login.html')
 
@@ -530,7 +562,7 @@ def ogTrans(recordID):
 
 	if 'username' not in session:
 		return redirect(url_for('index'))
-	print(recordID)
+	
 	records =tHistory.find({"PayPal Transaction ID":recordID,'Status':{'$ne':'Repeat'}})
 	if records.count()>1:
 		headers = []
@@ -551,11 +583,11 @@ def ogTrans(recordID):
 				else:
 					dd[key].append(value)
 
-		for value in dd:
-			print(dd[value])
+			
+			
 		return render_template('tempMulti.html',result = dd,title ="report",status = '',recordID=recordID)
 	else:	
-		print(records.count())
+		
 		return render_template('temp.html',result = records,title ="report",status = "",recordID=recordID)
 
 
@@ -688,7 +720,7 @@ def upload_file():
 			rep=[]
 			done = []
 			for i in li:
-				trans.append([i['PayPal Transaction ID'],i['Sales Record Number'],i['Buyer Postcode']])
+				trans.append([i['PayPal Transaction ID'],i['Sales Record Number'],i['Buyer Postcode'],i['Buyer Address 1'],i['User Id']])
 			for i in trans:
 
 				if tHistory.find({'PayPal Transaction ID':i[0]}).count()>0:
@@ -708,11 +740,15 @@ def upload_file():
 				for x in done:
 					
 					if ([i['PayPal Transaction ID']])==[x[0]]:
-							if i['Buyer Postcode'] == x[2]:
+							if i['User Id'] == x[4]:
+								if (i['Buyer Postcode'],i['Buyer Address 1']) !=(x[2],x[3]):
 
-								i['Status'] ='DropShip'
-							elif i['Buyer Postcode'] != x[2]:
-								i['Status'] ='DropShip'
+									i['Status'] ='DropShip'
+
+							elif (i['User Id'],i['Buyer Address 1'] )== (x[4],x[3]):
+								if (i['PayPal Transaction ID'],i['Sales Record Number']) !=(x[0],x[1]):
+									i['Status'] = 'Multi'
+									
 							elif [i['PayPal Transaction ID'],i['Sales Record Number'],i['Buyer Postcode']]==[x[0],x[1],x[2]]:	
 								i['Status'] ='Repeat'					
 														
@@ -736,7 +772,7 @@ def product_upload_file():
 
 	f = request.files['fileInput']
 	fName = secure_filename(f.filename)
-	print(fName)
+	
 	f.save(fName)
 	f= open(fName,'r',encoding="GBK")
 	try:
@@ -819,8 +855,7 @@ def product_upload_file():
 def editSKU(oldSKU):
 	if 'username' in session:
 		temp = tHistory.find({'SKU':oldSKU})
-		for i in temp:
-			pprint.pprint(i)
+		
 
 		skuTemp = productInfo.objects()
 		
