@@ -16,12 +16,15 @@ class productInfo(Document):
     productName = StringField(required=False, max_length=2000)
     chineseName = StringField(required=False, max_length=200)
     SKU = StringField(required=False, max_length=300)
+    products = ListField(required=False, max_length=2000)
+    chineses = ListField(required=False, max_length=200)
+    SKUS = ListField(required=False, max_length=300)
     colour = StringField(required=False, max_length=200)
     size = StringField(required=False, max_length=200)
-    weight = IntField(required=False, max_length=200)
-    height = IntField(required=False, max_length=200)
-    width = IntField(required=False, max_length=200)
-    length = IntField(required=False, max_length=200)
+    weight = StringField(required=False, max_length=200)
+    height = StringField(required=False, max_length=200)
+    width = StringField(required=False, max_length=200)
+    length = StringField(required=False, max_length=200)
     description = StringField(required=False, max_length=20000)
     material = StringField(required=False, max_length=200)
     quantity_inStock = IntField(required=False, max_length=200)
@@ -81,7 +84,7 @@ def userInsert(username, firstName, lastName, email, position, password):
 def itemInsert(productName, chineseName, SKU, colour, weight, height, width, length, description, material, quantity_inStock, cost_AUD, cost_RMB, cost_USD, category, status):
     itemEntry = productInfo(
 
-        productName=productName.lower(),
+        productName=productName,
         chineseName=chineseName,
         SKU=SKU,
         colour=colour.lower(),
@@ -228,5 +231,30 @@ def itemInsert3(li):
         cost_AUD=AUD,
         status=li[-1],
         envelope=(li[-4])
+    )
+    itemEntry.save()
+
+def itemInsert5(productName, chineseName, SKU, products,chinese,SKUS,colour, weight, height, width, length, description, material, quantity_inStock, cost_AUD, cost_RMB, cost_USD, category, status):
+    itemEntry = productInfo(
+
+        productName=productName,
+        chineseName=chineseName,
+        SKU=SKU,
+        products=products,
+        chineses=chinese,
+        SKUS=SKUS,
+        colour=colour.lower(),
+        weight=weight,
+        height=height,
+        width=width,
+        length=length,
+        description=description,
+        material=material,
+        quantity_inStock=(quantity_inStock),
+        cost_AUD=cost_AUD,
+        cost_RMB=cost_RMB,
+        cost_USD=cost_USD,
+        category=category,
+        status=status
     )
     itemEntry.save()
